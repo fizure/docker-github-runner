@@ -11,16 +11,16 @@ ENV RUNNER_ALLOW_RUNASROOT=true
 ENV GITHUB_ACCESS_TOKEN=""
 
 # Labels.
-LABEL maintainer="me@tcardonne.fr" \
+LABEL maintainer="ekke@fizure.com" \
     org.label-schema.schema-version="1.0" \
     org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-ref=$VCS_REF \
-    org.label-schema.name="tcardonne/github-runner" \
-    org.label-schema.description="Dockerized GitHub Actions runner." \
-    org.label-schema.url="https://github.com/tcardonne/docker-github-runner" \
-    org.label-schema.vcs-url="https://github.com/tcardonne/docker-github-runner" \
-    org.label-schema.vendor="Thomas Cardonne" \
-    org.label-schema.docker.cmd="docker run -it tcardonne/github-runner:latest"
+    org.label-schema.name="ekeuus/github-runner-nodejs" \
+    org.label-schema.description="Dockerized GitHub Actions runner. with nodejs" \
+    org.label-schema.url="https://github.com/fizure/github-runner-nodejs" \
+    org.label-schema.vcs-url="https://github.com/fizure/github-runner-nodejs" \
+    org.label-schema.vendor="Fizure" \
+    org.label-schema.docker.cmd="docker run -it ekeuus/github-runner-nodejs:latest"
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install -y \
@@ -35,6 +35,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
         jq \
         iputils-ping \
         build-essential
+
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install -y nodejs yarn
+
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN chmod 644 /etc/supervisor/conf.d/supervisord.conf
